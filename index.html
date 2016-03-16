@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/myApp.js"></script>
+	<script type="text/javascript" src="js/controller/formCtrl.js"></script>
+	<title>AngularJS - CISS</title>
+
+</head>
+
+<body ng-controller="FormCtrl">
+
+	<div class="container">
+		<div class="jumbotron">
+		<h1	ng-bind="'Cadastro de tarefas'"></h1>
+		<form id="formulario" class="row">
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="nome">Tarefa</label>
+				<input ng-model="tarefa" type="text" id="nome" class="form-control" placeholder="Digite a tarefa aqui..."></input>
+			</div>
+			<div class="form-group col-xs-12 col-md-12">
+				<button class="btn btn-success pull-right" ng-click= "cadastraTarefa(tarefa)" type="button">Cadastrar</button>
+			</div>
+		</form>
+		<hr>
+		
+		<div class="row">
+		<div class="form-group col-xs-12">
+			<label for="search">Buscar:</label>
+			<input type="text" class="form-control" id="search" ng-model="search"></input>
+		</div>
+
+		<p>{{ search }}</p>
+			<!-- Begin Table-->
+			<table class="table" ng-show = "list.length > 0">
+				<thead>
+					<tr>
+						<th>Check</th>
+						<th>Tarefa</th>
+						<th>Data</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+			
+					<tr ng-repeat="item in list | filter:search">
+						<td><input type="checkbox" ng-click = "removeTarefa($index)"></input></td>
+						<td ng-bind = "item.nomeTarefa"></td>
+						<td ng-bind = "item.dataTarefa | date:'dd/MM/yyyy'"></td>
+						<td>
+							<button class="btn btn-success" ng-click="editaTarefa($index)">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</button>
+							<button class="btn btn-danger" ng-click="removeTarefa($index)">
+								<i class="glyphicon glyphicon-trash"></i>
+							</button>
+						</td>
+					</tr>
+			
+				</tbody>
+			</table>
+			
+			<div>
+
+				<p ng-show="list.length <= 0">Nenhuma tarefa cadastrada.</p>
+
+			</div>
+			
+			<div class="row" ng-show="clicouEditar">
+				<div class="form-group col-xs-8">
+					<input ng-model="renomear" type="text" class="form-control"></input>
+				</div>
+				<div class="form-group col-xs-4">
+					<button class="btn btn-primary pull-right" ng-click= "renomearTarefa(renomear)" type="button">Renomear</button>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</div>
+</body>
+
+</html>
