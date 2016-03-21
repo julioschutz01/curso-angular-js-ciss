@@ -1,87 +1,83 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
-
 <head>
-
-	<meta charset="UTF-8">
+	<title>Cadastro de Contatos</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<script type="text/javascript" src="js/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/angular.js"></script>
 	<script type="text/javascript" src="js/myApp.js"></script>
 	<script type="text/javascript" src="js/controller/formCtrl.js"></script>
-	<title>AngularJS - CISS</title>
-
 </head>
-
 <body ng-controller="FormCtrl">
+	<div class="container" >
+		<div class="jumbotron row">
+			<div class="formgroup col-xs-12 col-md-4">
+				
+                <form class="row">
+                    
+					<legend ng-bind="'Cadastrar'" ng-hide="!editar"></legend>
+					<legend ng-bind="'Editar'" ng-show="!editar"></legend>
 
-	<div class="container">
-		<div class="jumbotron">
-		<h1	ng-bind="'Cadastro de tarefas'"></h1>
-		<form id="formulario" class="row">
-			<div class="form-group col-xs-12 col-md-12">
-				<label for="nome">Tarefa</label>
-				<input ng-model="tarefa" type="text" id="nome" class="form-control" placeholder="Digite a tarefa aqui..."></input>
-			</div>
-			<div class="form-group col-xs-12 col-md-12">
-				<button class="btn btn-success pull-right" ng-click= "cadastraTarefa(tarefa)" type="button">Cadastrar</button>
-			</div>
-		</form>
-		<hr>
+					<div class="form-group col-xs-12">
+						<label for="name">Nome:</label>
+						<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="contato.name">
+					</div>
+					<div class="form-group col-xs-12">
+						<label for="email">E-mail:</label>
+						<input type="email" class="form-control" id="email" placeholder="E-mail" ng-model="contato.email">
+					</div>
+					<div class="form-group col-xs-12">
+						<label for="fone">Telefone:</label>
+						<input type="text" class="form-control" id="fone" placeholder="Telefone" ng-model="contato.fone">
+					</div>
+					<div class="form-group col-xs-12" ng-hide="!!editar">
+						<button type="submit" class="btn btn-primary pull-right" ng-click="salvarContato(contato)">Adicionar</button>
+					</div>
+					<div class="form-group col-xs-12 " ng-show="!!editar">
+						<button type="submit" class="btn btn-danger pull-right" ng-click="cancelarContato()">Cancelar</button>
+						<button type="submit" class="btn btn-primary pull-right" ng-click="salvarContato(contato)">Salvar</button>
+					</div>
 		
-		<div class="row">
-		<div class="form-group col-xs-12">
-			<label for="search">Buscar:</label>
-			<input type="text" class="form-control" id="search" ng-model="search"></input>
-		</div>
-
-		<p>{{ search }}</p>
-			<!-- Begin Table-->
-			<table class="table" ng-show = "list.length > 0">
-				<thead>
-					<tr>
-						<th>Check</th>
-						<th>Tarefa</th>
-						<th>Data</th>
-						<th>Opções</th>
-					</tr>
-				</thead>
-				<tbody>
-			
-					<tr ng-repeat="item in list | filter:search">
-						<td><input type="checkbox" ng-click = "removeTarefa($index)"></input></td>
-						<td ng-bind = "item.nomeTarefa"></td>
-						<td ng-bind = "item.dataTarefa | date:'dd/MM/yyyy'"></td>
-						<td>
-							<button class="btn btn-success" ng-click="editaTarefa($index)">
-								<i class="glyphicon glyphicon-pencil"></i>
-							</button>
-							<button class="btn btn-danger" ng-click="removeTarefa($index)">
-								<i class="glyphicon glyphicon-trash"></i>
-							</button>
-						</td>
-					</tr>
-			
-				</tbody>
-			</table>
-			
-			<div>
-
-				<p ng-show="list.length <= 0">Nenhuma tarefa cadastrada.</p>
-
+				</form>
+                
 			</div>
-			
-			<div class="row" ng-show="clicouEditar">
-				<div class="form-group col-xs-8">
-					<input ng-model="renomear" type="text" class="form-control"></input>
-				</div>
-				<div class="form-group col-xs-4">
-					<button class="btn btn-primary pull-right" ng-click= "renomearTarefa(renomear)" type="button">Renomear</button>
-				</div>
+			<div class="formgroup col-xs-12 col-md-8">
+				<table class="table table-striped table-bordered" ng-show="!!contato">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>E-mail</th>
+							<th>Telefone</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="contato in contatos">
+							<td ng-bind="contato.name"></td>
+							<td ng-bind="contato.email"></td>
+							<td ng-bind="contato.fone"></td>
+							<td>
+								<button class="btn btn-danger pull-right" ng-click="excluirContato($index)">
+									<i class="glyphicon glyphicon-trash"></i>
+								</button>
+								<button class="btn btn-success pull-right" ng-click="EditarContato($index)">
+									<i class="glyphicon glyphicon-pencil"></i>
+								</button>
+							</td>
+						</tr>
+                       
+					</tbody>
+              
+				</table>
+                
+                <div class="row alert alert-info" role="alert" ng-hide="contatos.length > 0">
+				    <label>Nenhum contato cadastrado!</label>
+			     </div>
+                
 			</div>
-		</div>
-		
 		</div>
 	</div>
-</body>
 
+</body>
 </html>
